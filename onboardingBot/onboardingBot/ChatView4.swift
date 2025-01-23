@@ -33,6 +33,12 @@ struct ChatView4: View {
                 messages.append(newMessage)
             }
         }
+        .background(
+            Image("IFGL-BG")
+                .resizable()
+                .ignoresSafeArea(edges: .top)
+                .scaledToFill()
+        )
     }
 
     func sendMessage() {
@@ -102,10 +108,10 @@ struct ChatView4: View {
 // Views for Header, Messages, and Input
 struct HeaderView: View {
     var body: some View {
-        Text("Chatbot")
-            .font(.title)
-            .padding()
-    }
+        VStack {
+            Image("IFGL-Beacon")
+        }
+}
 }
 
 struct ChatMessagesView: View {
@@ -118,9 +124,21 @@ struct ChatMessagesView: View {
                     HStack {
                         if message.isUser {
                             Spacer()
-                            messageView(message: message, alignment: .trailing, backgroundColor: .blue, textColor: .white)
+                            messageView(message: message,
+                                        alignment: .trailing,
+                                        backgroundColor: Color(
+                                            red: 78/255,
+                                            green: 121/255,
+                                            blue: 241/255),
+                                        textColor: .white)
                         } else {
-                            messageView(message: message, alignment: .leading, backgroundColor: .gray.opacity(0.2), textColor: .black)
+                            messageView(message: message,
+                                        alignment: .leading,
+                                        backgroundColor: Color(
+                                            red: 18/255,
+                                            green: 50/255,
+                                            blue: 80/255),
+                                        textColor: .white)
                             Spacer()
                         }
                     }
@@ -130,8 +148,7 @@ struct ChatMessagesView: View {
             }
         }
         .frame(maxWidth: .infinity)
-        .background(Color.cyan)
-        .padding()
+        .padding() // Keep padding outside the ScrollView
     }
 
     func messageView(message: ChatMessage, alignment: Alignment, backgroundColor: Color, textColor: Color) -> some View {
@@ -143,13 +160,36 @@ struct ChatMessagesView: View {
                     .frame(width: 200, height: 200)
             } else {
                 Text(message.text)
-                    .padding()
-                    .background(backgroundColor)
-                    .foregroundColor(textColor)
-                    .cornerRadius(15)
-                    .frame(maxWidth: 250, alignment: alignment)
-            }
+                   .padding()
+                   .background(
+                       ZStack(alignment: alignment) {
+                           RoundedRectangle(cornerRadius: 15)
+                               .fill(backgroundColor)
+                           
+                           // Add the "tail" to the bubble
+                           Triangle()
+                               .fill(backgroundColor)
+                               .frame(width: 10, height: 10)
+                               .rotationEffect(.degrees(alignment == .trailing ? -90 : 90))
+                               .offset(x: alignment == .trailing ? -5 : 5, y: 0)
+                       }
+                   )
+                   .foregroundColor(textColor)
+                   .frame(maxWidth: 250, alignment: alignment)
+           }
         }
+    }
+}
+
+// Triangle Shape for the message bubble tail
+struct Triangle: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.move(to: CGPoint(x: rect.midX, y: rect.minY))
+        path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
+        path.addLine(to: CGPoint(x: rect.midX, y: rect.minY))
+        return path
     }
 }
 
@@ -164,32 +204,39 @@ struct InputAreaView: View {
                 isDocumentPickerPresented = true
             }) {
                 Image(systemName: "plus")
-                    .font(.system(size: 24))
-                    .padding(.horizontal, 7.5)
-                    .padding(.vertical, 8)
-                    .background(Color.gray.opacity(0.2))
-                    .cornerRadius(50)
+                    .font(.system(size: 16))
+                    .padding(14)
+//                    .padding(.horizontal, 7.5)
+//                    .padding(.vertical, 8)
+                    .foregroundColor(.white)
+                    .overlay(
+                        Circle()
+                            .stroke(Color.white, lineWidth: 1)
+                    )
             }
-
-            HStack {
+            
+            ZStack(alignment: .trailing) { // Container for text field and send button
                 TextField("Type your message", text: $userInput, axis: .vertical)
+                    .foregroundColor(Color(red: 104/255, green: 126/255, blue: 153/255) )
                     .lineLimit(nil)
-
+                    .padding(14)
+                    .accentColor(Color(red: 104/255, green: 126/255, blue: 153/255))
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color(red: 2/255, green: 19/255, blue: 34/255))
+                    )
+                
                 Button(action: onSend) {
                     Image(systemName: "arrow.up")
                         .font(.system(size: 16))
-                        .padding(.horizontal, 7)
-                        .padding(.vertical, 6)
-                        .background(Color.blue)
+                        .padding(8)
+                        .background(Color(red: 78/255, green: 121/255, blue: 241/255))
                         .foregroundColor(.white)
-                        .cornerRadius(50)
+                        .clipShape(Circle())
                 }
+                .padding(.trailing, 15)
             }
-            .padding(10)
-            .overlay(
-                RoundedRectangle(cornerRadius: 18)
-                    .stroke(Color.gray, lineWidth: 1)
-            )
+            
         }
         .padding()
     }
@@ -281,6 +328,12 @@ struct DocumentPicker: UIViewControllerRepresentable {
             callback(.failure(NSError(domain: "DocumentPicker", code: 2, userInfo: [NSLocalizedDescriptionKey: "Document selection cancelled"])))
         }
     }
+}
+
+extension Color {
+    static let userChat = Color(red: 78/255, green: 121/255, blue: 241/255)
+    static let botChat = Color(red: 18/255, green: 50/255, blue: 80/255)
+    static let textBox = Color(red: 2/255, green: 19/255, blue: 34/255)
 }
 
 #Preview {
