@@ -157,7 +157,12 @@ struct ChatMessagesView: View {
                 Image(uiImage: uiImage)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 200, height: 200)
+                    .padding(24)
+                    .frame(width: 200)
+                    .background(RoundedRectangle(cornerRadius: 15)
+                        .fill(backgroundColor)
+            
+                    )
             } else {
                 Text(message.text)
                    .padding()
