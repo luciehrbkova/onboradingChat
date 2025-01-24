@@ -165,19 +165,12 @@ struct ChatMessagesView: View {
                     )
             } else {
                 HStack {
-//                    if alignment == .leading{
-//                        Image(systemName: "arrowtriangle.left.fill")
-//                            .font(.system(size: 16))
-//                            .foregroundColor(backgroundColor)
-//                            .foregroundColor(.cyan)
-//                            .padding(.zero)
-//                            .offset(x: 10, y: 10)
-//                        Triangle()
-//                            .fill(backgroundColor)
-//                            .frame(width: 10, height: 10)
-//                            .rotationEffect(.degrees(alignment == .trailing ? -90 : 90))
-//                            .offset(x: alignment == .trailing ? -5 : 5, y: 0)
-//                    }
+                    if alignment == .leading{
+                        Image(systemName: "arrowtriangle.left.fill")
+                            .font(.system(size: 16))
+                            .foregroundColor(backgroundColor)
+                            .padding(.zero)
+                    }
                     Text(message.text)
                         .padding(.horizontal, 32)
                         .padding(.vertical, 13)
@@ -189,34 +182,17 @@ struct ChatMessagesView: View {
                        )
                        .foregroundColor(textColor)
                        .frame(maxWidth: 250, alignment: alignment)
-//                    if alignment == .trailing{
-//                        Image(systemName: "arrowtriangle.right.fill")
-//                            .font(.system(size: 16))
-//                            .foregroundColor(backgroundColor)
-//                            .padding(.zero)
-//                            .offset(x: 10, y: 10)
-//                        Triangle()
-//                            .fill(backgroundColor)
-//                            .frame(width: 10, height: 10)
-//                            .rotationEffect(.degrees(alignment == .trailing ? -90 : 90))
-//                            .offset(x: alignment == .trailing ? -5 : 5, y: 0)
-//                    }
+                       .offset(x: alignment == .leading ? -13 : 11, y: 0)
+                    if alignment == .trailing{
+                        Image(systemName: "arrowtriangle.right.fill")
+                            .font(.system(size: 16))
+                            .foregroundColor(backgroundColor)
+                            .padding(.zero)
+                    }
                 }
                 
            }
         }
-    }
-}
-
-// Triangle Shape for the message bubble tail
-struct Triangle: Shape {
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        path.move(to: CGPoint(x: rect.midX, y: rect.minY))
-        path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
-        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
-        path.addLine(to: CGPoint(x: rect.midX, y: rect.minY))
-        return path
     }
 }
 
@@ -233,8 +209,6 @@ struct InputAreaView: View {
                 Image(systemName: "plus")
                     .font(.system(size: 16))
                     .padding(14)
-//                    .padding(.horizontal, 7.5)
-//                    .padding(.vertical, 8)
                     .foregroundColor(.white)
                     .overlay(
                         Circle()
@@ -355,12 +329,6 @@ struct DocumentPicker: UIViewControllerRepresentable {
             callback(.failure(NSError(domain: "DocumentPicker", code: 2, userInfo: [NSLocalizedDescriptionKey: "Document selection cancelled"])))
         }
     }
-}
-
-extension Color {
-    static let userChat = Color(red: 78/255, green: 121/255, blue: 241/255)
-    static let botChat = Color(red: 18/255, green: 50/255, blue: 80/255)
-    static let textBox = Color(red: 2/255, green: 19/255, blue: 34/255)
 }
 
 #Preview {
