@@ -164,23 +164,45 @@ struct ChatMessagesView: View {
             
                     )
             } else {
-                Text(message.text)
-                   .padding()
-                   .background(
-                       ZStack(alignment: alignment) {
-                           RoundedRectangle(cornerRadius: 15)
-                               .fill(backgroundColor)
-                           
-                           // Add the "tail" to the bubble
-                           Triangle()
-                               .fill(backgroundColor)
-                               .frame(width: 10, height: 10)
-                               .rotationEffect(.degrees(alignment == .trailing ? -90 : 90))
-                               .offset(x: alignment == .trailing ? -5 : 5, y: 0)
-                       }
-                   )
-                   .foregroundColor(textColor)
-                   .frame(maxWidth: 250, alignment: alignment)
+                HStack {
+//                    if alignment == .leading{
+//                        Image(systemName: "arrowtriangle.left.fill")
+//                            .font(.system(size: 16))
+//                            .foregroundColor(backgroundColor)
+//                            .foregroundColor(.cyan)
+//                            .padding(.zero)
+//                            .offset(x: 10, y: 10)
+//                        Triangle()
+//                            .fill(backgroundColor)
+//                            .frame(width: 10, height: 10)
+//                            .rotationEffect(.degrees(alignment == .trailing ? -90 : 90))
+//                            .offset(x: alignment == .trailing ? -5 : 5, y: 0)
+//                    }
+                    Text(message.text)
+                        .padding(.horizontal, 32)
+                        .padding(.vertical, 13)
+                        .background(
+                           ZStack(alignment: alignment) {
+                               RoundedRectangle(cornerRadius: 15)
+                                   .fill(backgroundColor)
+                           }
+                       )
+                       .foregroundColor(textColor)
+                       .frame(maxWidth: 250, alignment: alignment)
+//                    if alignment == .trailing{
+//                        Image(systemName: "arrowtriangle.right.fill")
+//                            .font(.system(size: 16))
+//                            .foregroundColor(backgroundColor)
+//                            .padding(.zero)
+//                            .offset(x: 10, y: 10)
+//                        Triangle()
+//                            .fill(backgroundColor)
+//                            .frame(width: 10, height: 10)
+//                            .rotationEffect(.degrees(alignment == .trailing ? -90 : 90))
+//                            .offset(x: alignment == .trailing ? -5 : 5, y: 0)
+//                    }
+                }
+                
            }
         }
     }
