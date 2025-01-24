@@ -253,7 +253,7 @@ struct DocumentPicker: UIViewControllerRepresentable {
     }
 
     func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
-        let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.plainText, .jpeg, .pdf], asCopy: true)
+        let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.plainText, .jpeg, .pdf, .png], asCopy: true)
         documentPicker.delegate = context.coordinator
         return documentPicker
     }
