@@ -147,6 +147,7 @@ struct ChatMessagesView: View {
                 }
             }
         }
+        .defaultScrollAnchor(.bottom)
         .frame(maxWidth: .infinity)
         .padding() // Keep padding outside the ScrollView
     }
