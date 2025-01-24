@@ -218,7 +218,7 @@ struct InputAreaView: View {
             }
             
             ZStack(alignment: .trailing) { // Container for text field and send button
-                TextField("Type your message", text: $userInput, axis: .vertical)
+                TextField("", text: $userInput, prompt: Text("Type your message").foregroundColor(Color(red: 104/255, green: 126/255, blue: 153/255)), axis: .vertical)
                     .foregroundColor(Color(red: 104/255, green: 126/255, blue: 153/255) )
                     .lineLimit(nil)
                     .padding(14)
